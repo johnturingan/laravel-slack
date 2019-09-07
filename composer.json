@@ -1,5 +1,6 @@
 {
     "name": "johnturingan/laravel-slack",
+    "version": "1.1.1",
     "description": "Forked Repository",
     "keywords": ["laravel", "slack"],
     "type": "library",
