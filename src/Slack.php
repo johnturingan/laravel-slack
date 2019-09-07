@@ -37,7 +37,6 @@ class Slack
 
     public function __construct(array $config)
     {
-        $this->anonymousNotifiable = Notification::route('slack', $config['slack_webhook_url']);
         $this->recipients = [$config['default_channel']];
         $this->from = $config['application_name'];
         $this->image = $config['application_image'];
@@ -53,6 +52,16 @@ class Slack
      */
     public function to($recipient): self
     {
+
+        $hook_url = $this->config["slack_webhook_urls"][$recipient];
+
+        if(!empty($hook_url)) {
+            $this->anonymousNotifiable = \Notification::route('slack', $hook_url);
+        } else {
+            throw new \InvalidArgumentException("$recipient doesn't have a webhook URL associated with it in your laravel-slack config. Please add one.");
+        }
+
+
         if ($recipient instanceof Collection) {
             $recipient = $recipient->all();
         }
@@ -84,8 +93,6 @@ class Slack
         foreach ($slackMessages as $slackMessage) {
             $this->notify($slackMessage);
         }
-
-        $this->recipients = [$this->config['default_channel']];
     }
 
     protected function notify(SlackMessage $slackMessage)

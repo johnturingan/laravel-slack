@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'slack_webhook_url' => env('SLACK_WEBHOOK_URL', ''),
+    'slack_webhook_urls' => [
+        '#general' => env('SLACK_WEBHOOK_URL', '')
+    ],
 
     /*
     |--------------------------------------------------------------------------
